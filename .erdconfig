@@ -1,0 +1,20 @@
+attributes:
+  - 'content'
+  - 'foreign_key'
+  - 'inheritance'
+  - 'timestamps'
+disconnected:    true
+filename:        'erd'
+filetype:        'svg'
+indirect:        false
+inheritance:     true
+markup:          true
+notation:        'bachman'
+polymorphism:    false
+sort:            true
+warn:            false
+title:           'APP ERD'
+prepend_primary: false
+exclude:         'ActiveRecord::SchemaMigration,ActiveRecord::InternalMetadata,primary::SchemaMigration'
+cluster:         false
+splines:         spline
