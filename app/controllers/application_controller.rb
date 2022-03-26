@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base # rubocop:disable Style/Documentation
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
