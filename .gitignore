@@ -96,3 +96,5 @@ yarn-debug.log*
 # Ignore yard document
 .yardoc/
 doc/
+
+/.env
