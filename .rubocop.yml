@@ -89,6 +89,10 @@ Style/RedundantSelf:
 Style/RegexpLiteral:
   AllowInnerSlashes: true
 
+# クラスやモジュールを書くまえにドキュメントを書くことを無効化
+Style/Documentation:
+  Enabled: false
+
 # 引数のインデントスタイルを指定
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
