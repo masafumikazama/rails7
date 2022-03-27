@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'UserSessions', type: :system do
-
   context 'ユーザー登録ができることを確認' do
-
     it 'ユーザー登録ができることを確認' do
       visit new_user_registration_path
       fill_in 'user[email]', with: 'user@example.com'

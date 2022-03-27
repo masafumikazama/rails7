@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ManagerSessions', type: :system do
-
   context 'マネージャー登録ができることを確認' do
-
     it 'マネージャー登録ができることを確認' do
       visit new_manager_registration_path
       fill_in 'manager[email]', with: 'manager@example.com'
