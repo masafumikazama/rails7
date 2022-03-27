@@ -18,6 +18,10 @@
 ```
 docker-compose build
 ```
+- アセットのセッティング
+```
+docker-compose run --rm app rails assets:precompile
+```
 - コンテナ起動
 ```
 docker-compose up
