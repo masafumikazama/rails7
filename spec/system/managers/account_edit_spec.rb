@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'マネージャー詳細の更新', type: :system do
-  before do
+  before(:each) do
     login_manager
   end
 

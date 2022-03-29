@@ -5,18 +5,13 @@ module Managers
   class AccountController < Managers::Base
     before_action :set_manager, only: %i[show edit update]
 
-    def show
+    def show; end
 
-    end
-
-    def edit
-
-
-    end
+    def edit; end
 
     def update
       if @manager.update(manager_params)
-        sign_in(@manager, :bypass=>true)
+        sign_in(@manager, bypass: true)
         redirect_to managers_show_path
       else
         render :edit
@@ -29,8 +24,8 @@ module Managers
 
     private
 
-      def set_manager
-        @manager = current_manager
-      end
+    def set_manager
+      @manager = current_manager
+    end
   end
 end
