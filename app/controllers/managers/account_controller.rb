@@ -3,7 +3,6 @@
 module Managers
   # 管理者のアカウント
   class AccountController < Managers::Base
-
     def show; end
 
     def edit; end

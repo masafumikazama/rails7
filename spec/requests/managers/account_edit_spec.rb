@@ -29,9 +29,10 @@ RSpec.describe 'マネージャーアカウントの編集テスト', type: :req
     end
 
     context 'マネージャー詳細編集のパラメータが揃ってい無い場合' do
-      it '更新は失敗するがリクエスト自体はエラーにならないこと' do
+      it '更新できずエラーメッセージが出ること' do
         patch managers_update_path, params: { manager: invalid_manager_params }
-        expect(response.status).to eq 200
+        expect(response.body).to include('エラーが発生したため 管理者 は保存されませんでした。')
+        expect(response.status).to eq 422
       end
 
       it '認証メールが送信されないこと' do
