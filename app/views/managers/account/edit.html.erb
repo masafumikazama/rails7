@@ -11,12 +11,12 @@
                     <div class="flex gap-2 md:gap-4 justify-between items-center">
                         <div class="flex flex-col space-y-4">
                             <div class="flex items-center gap-4">
-                              <%= render 'form', manager: @manager %>
+                              <%= render 'form', manager: current_manager %>
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-2 md:gap-4">
-                      <%= link_to '戻る', managers_show_path(@manager), class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+                      <%= link_to '戻る', managers_show_path(current_manager), class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
                     </div>
                 </div>
             </div>
