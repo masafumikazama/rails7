@@ -27,12 +27,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   namespace :managers do
     resources :dashboards, only: [:index]
-  end
-
-  namespace :managers do
     get :show, path: '/account', to: 'account#show'
     get :edit, path: '/account/edit', to: 'account#edit'
     patch :update, path: '/account', to: 'account#update'
+  end
+
+  namespace :managers do
+    resources :users, only: %i[index show]
   end
 
   namespace :users do
