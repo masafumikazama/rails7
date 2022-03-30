@@ -1,0 +1,16 @@
+<%= form_with(model: manager, url: managers_general_managers_path, local: true, method: :post) do |form| %>
+  <%= render "managers/shared/error_messages", resource: manager %>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :email, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :password, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.password_field :password, autocomplete: "current-password", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :password_confirmation, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.password_field :password_confirmation, autocomplete: "current-password", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <%= form.submit class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+<% end %>
