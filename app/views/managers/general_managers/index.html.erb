@@ -28,7 +28,9 @@
                         </tbody>
                       </table>
                     <div class="flex gap-2 md:gap-4">
-                      <%= link_to 'マネージャー新規作成', new_managers_general_manager_path, class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+                      <% if can?  :create, current_manager %>
+                        <%= link_to 'マネージャー新規作成', new_managers_general_manager_path, class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+                      <% end %>
                       <%= link_to '戻る', managers_dashboards_path, class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
                     </div>
                 </div>
