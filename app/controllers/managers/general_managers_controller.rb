@@ -16,7 +16,7 @@ module Managers
     end
 
     def create
-      if @manager = Manager.create(manager_params)
+      if (@manager = Manager.create(manager_params))
         sign_in(current_manager, bypass: true)
         redirect_to managers_general_manager_path(@manager)
       else

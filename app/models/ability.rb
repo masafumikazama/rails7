@@ -4,11 +4,12 @@ class Ability
   include CanCan::Ability
 
   def initialize(manager)
-    if manager.role == 'admin'
+    case manager.role
+    when 'admin'
       can :manage, :all
       # adminはフル権限
 
-    elsif manager.role == 'gengeral'
+    when 'gengeral'
       can :read, :all
       # gengeralは閲覧のみ可能
     end
