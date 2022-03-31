@@ -6,7 +6,7 @@
   <%= render "managers/shared/error_messages", resource: resource %>
 
   <section class="mt-10">
-    <% if exit_admin_manager %>
+    <% if admin_manager_exists? %>
       <%= 'admin権限のマネージャーが既に存在しています。'%>
     <% else %>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }, class: "flex flex-col") do |f| %>
