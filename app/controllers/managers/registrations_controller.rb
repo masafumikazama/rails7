@@ -13,9 +13,14 @@ module Managers
     # end
 
     # POST /resource
-    # def create
-    #   super
-    # end
+    def create
+      if Manager.exists?(role: 'admin')
+        redirect_to new_manager_registration_path
+        flash[:alert] = 'admin権限のマネージャーが既に存在しています。'
+      else
+        super
+      end
+    end
 
     # GET /resource/edit
     # def edit

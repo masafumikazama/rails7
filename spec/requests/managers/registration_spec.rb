@@ -50,5 +50,20 @@ RSpec.describe 'マネージャー登録から認証メールの送信テスト'
         }.not_to change(Manager, :count)
       end
     end
+
+    context 'Adminマネージャーが登録済みな場合' do
+      let!(:manager) { create(:manager) }
+
+      it 'リダイレクトされること' do
+        post manager_registration_path, params: { manager: manager_params }
+        expect(response.status).to eq 302
+      end
+
+      it '登録されないこと' do
+        expect {
+          post manager_registration_path, params: { manager: manager_params }
+        }.not_to change(Manager, :count)
+      end
+    end
   end
 end

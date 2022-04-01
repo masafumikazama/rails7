@@ -16,6 +16,8 @@ module Managers
       end
     end
 
+    private
+
     def manager_params
       params.require(:manager).permit(:email, :password, :password_confirmation)
     end
