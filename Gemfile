@@ -98,12 +98,12 @@ end
 group :test do
   # 結合テスト用ツール
   gem 'capybara'
+  gem 'faker' # ダミーデータの作成
   gem 'launchy', '~> 2.4.3' # 追記
   gem 'selenium-webdriver'
   gem 'turnip'
   gem 'webdrivers' # 追記
   gem 'webrick'
-  gem 'faker' # ダミーデータの作成
 
   # カバレッジ測定ツール
   gem 'simplecov'

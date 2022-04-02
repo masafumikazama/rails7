@@ -20,12 +20,12 @@ RSpec.describe 'Bookモデルのテスト', type: :model do
       end
 
       it '31文字以上は通らないこと' do # TODO: Faker::Lorem.characters(number:31) gem faker を使っても良いか相談。
-        book.title = Faker::Lorem.characters(number:31)
+        book.title = Faker::Lorem.characters(number: 31)
         expect(book.valid?).to eq false
       end
 
       it '30文字以下は通ること' do
-        book.title = Faker::Lorem.characters(number:30)
+        book.title = Faker::Lorem.characters(number: 30)
         expect(book.valid?).to eq true
       end
     end
