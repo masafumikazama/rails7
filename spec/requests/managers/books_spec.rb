@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '図書データのCRUDテスト', type: :request do
   let(:book) { create(:book) }
   let(:book_params) { attributes_for(:book) }
-  let(:invalid_book_params) { attributes_for(:book, title: '') }
+  let(:invalid_book_params) { attributes_for(:book, title: Faker::Lorem.characters(number: 31)) }
 
   before(:each) do
     ActionMailer::Base.deliveries.clear
@@ -21,8 +21,7 @@ RSpec.describe '図書データのCRUDテスト', type: :request do
     context 'パラメータが全て揃っていない場合' do
       it '新規作成が失敗すること' do
         post managers_books_path, params: { book: invalid_book_params }
-        expect(Book.where(uuid: book.uuid).size).to eq 1
-        expect(response.status).to eq 302
+        expect(response.status).to eq 422
       end
     end
   end

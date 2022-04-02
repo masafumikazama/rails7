@@ -13,7 +13,8 @@ module Managers
     end
 
     def create
-      if (@book = Book.create(book_params))
+      @book = Book.new(book_params)
+      if @book.save
         sign_in(current_manager, bypass: true)
         redirect_to managers_book_path(@book)
       else
