@@ -65,6 +65,9 @@ gem 'dotenv-rails'
 # マネージャーの権限管理
 gem 'cancancan'
 
+# ページネーション
+gem 'kaminari'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -93,6 +96,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # テストデータの作成
+  gem 'seed-fu'
 end
 
 group :test do
