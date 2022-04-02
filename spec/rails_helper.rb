@@ -93,3 +93,7 @@ end
 def login_manager
   sign_in FactoryBot.create(:manager)
 end
+
+def login_user
+  sign_in FactoryBot.create(:user)
+end
