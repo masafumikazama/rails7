@@ -1,0 +1,28 @@
+<%= form_with(model: book, url: managers_books_path, local: true, method: :post) do |form| %>
+  <%= render "managers/shared/error_messages", resource: book %>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :タイトル, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.text_field :title, autofocus: true, autocomplete: "title", required: true, class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :著者, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.text_field :auther, autofocus: true, autocomplete: "auther", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :出版社, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.text_field :publisher, autofocus: true, autocomplete: "publisher", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :出版年, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.date_select :published_on, autofocus: true, autocomplete: "published_on", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :シリーズ, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.text_field :series, autofocus: true, autocomplete: "series", class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <div class="mb-6 pt-3 rounded bg-gray-200">
+    <%= form.label :ページ数, class: "text-gray-700 text-sm font-bold mb-2 ml-3" %>
+    <%= form.number_field :page_size, autofocus: true, autocomplete: "page_size", required: true, class: "bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" %>
+  </div>
+  <%= form.submit class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+<% end %>

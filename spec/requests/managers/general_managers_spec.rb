@@ -22,6 +22,13 @@ RSpec.describe 'ジェネラルマネージャーのCRUDテスト', type: :reque
         expect(ActionMailer::Base.deliveries.size).to eq 1
       end
     end
+
+    context 'パラメータが全て揃ってい無い場合' do
+      it '新規作成のリクエストが失敗すること' do
+        post managers_general_managers_path, params: { manager: invalid_manager_params }
+        expect(response.status).to eq 422
+      end
+    end
   end
 
   describe 'ジェネラルマネージャー編集テスト' do
