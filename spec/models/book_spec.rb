@@ -19,13 +19,13 @@ RSpec.describe 'Bookモデルのテスト', type: :model do
         expect(book.errors[:title]).to include('を入力してください')
       end
 
-      it '30文字以上は通らないこと' do # TODO: Faker::Lorem.characters(number:31) gem faker を使っても良いか相談。
-        book.title = 'abcdefghijklmnopqrstuvwxyzabcde' # 31文字
+      it '31文字以上は通らないこと' do # TODO: Faker::Lorem.characters(number:31) gem faker を使っても良いか相談。
+        book.title = Faker::Lorem.characters(number:31)
         expect(book.valid?).to eq false
       end
 
       it '30文字以下は通ること' do
-        book.title = 'abcdefghijklmnopqrstuvwxyzabcd' # 30文字
+        book.title = Faker::Lorem.characters(number:30)
         expect(book.valid?).to eq true
       end
     end

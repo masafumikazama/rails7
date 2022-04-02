@@ -103,6 +103,7 @@ group :test do
   gem 'turnip'
   gem 'webdrivers' # 追記
   gem 'webrick'
+  gem 'faker' # ダミーデータの作成
 
   # カバレッジ測定ツール
   gem 'simplecov'
