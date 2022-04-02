@@ -36,6 +36,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   namespace :users do
+    resources :books, param: :uuid, only: %i[index show]
     resources :dashboards, only: [:index]
   end
 
