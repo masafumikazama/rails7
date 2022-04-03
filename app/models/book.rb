@@ -1,4 +1,7 @@
+require 'elasticsearch/model'
+
 class Book < ApplicationRecord
+  include Books::Searchable
   before_create -> { self.uuid = SecureRandom.uuid }
   attribute :uuid, :string, default: -> { SecureRandom.uuid }
 

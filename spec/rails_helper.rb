@@ -88,6 +88,13 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include Devise::Test::IntegrationHelpers, type: :system
+
+  # Elasticsearchのindex作成
+  config.before :each do |example|
+    if example.metadata[:elasticsearch]
+      Book.create_index!
+    end
+  end
 end
 
 def login_manager
