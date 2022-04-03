@@ -35,7 +35,11 @@ module Books
       def create_index!
         client = __elasticsearch__.client
         # すでにindexを作成済みの場合は削除する
-        client.indices.delete index: self.index_name rescue nil
+        begin
+          client.indices.delete index: self.index_name
+        rescue StandardError
+          nil
+        end
         # indexを作成する
         client.indices.create(index: self.index_name,
           body: {
@@ -49,9 +53,9 @@ module Books
       Book.search({
         query: {
           multi_match: {
-            fields: %w( uuid title auther publisher published_on series page_size),
-            type: 'cross_fields',
-            query: query,
+            fields:   %w[uuid title auther publisher published_on series page_size],
+            type:     'cross_fields',
+            query:    query,
             operator: 'and'
           }
         }
