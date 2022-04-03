@@ -16,6 +16,7 @@ services:
       - 3000:3000
     depends_on:
       - db
+      - elasticsearch
 
   db:
     restart: always
@@ -30,7 +31,24 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
+  elasticsearch:
+    build: ./docker/elasticsearch
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+
 volumes:
   mysql-data:
   bundle:
   node_modules:
+  es-data:

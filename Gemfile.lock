@@ -75,6 +75,9 @@ GEM
     ast (2.4.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
+    bonsai-elasticsearch-rails (7.0.1)
+      elasticsearch-model (< 8)
+      elasticsearch-rails (< 8)
     bootsnap (1.10.3)
       msgpack (~> 1.2)
     brakeman (5.2.1)
@@ -127,6 +130,19 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    elasticsearch (7.13.0)
+      elasticsearch-api (= 7.13.0)
+      elasticsearch-transport (= 7.13.0)
+    elasticsearch-api (7.13.0)
+      multi_json
+    elasticsearch-model (7.2.1)
+      activesupport (> 3)
+      elasticsearch (~> 7)
+      hashie
+    elasticsearch-rails (7.2.1)
+    elasticsearch-transport (7.13.0)
+      faraday (~> 1)
+      multi_json
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -135,9 +151,33 @@ GEM
       railties (>= 5.0.0)
     faker (2.20.0)
       i18n (>= 1.8.11, < 2)
+    faraday (1.10.0)
+      faraday-em_http (~> 1.0)
+      faraday-em_synchrony (~> 1.0)
+      faraday-excon (~> 1.1)
+      faraday-httpclient (~> 1.0)
+      faraday-multipart (~> 1.0)
+      faraday-net_http (~> 1.0)
+      faraday-net_http_persistent (~> 1.0)
+      faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
+      faraday-retry (~> 1.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-em_http (1.0.0)
+    faraday-em_synchrony (1.0.0)
+    faraday-excon (1.1.0)
+    faraday-httpclient (1.0.1)
+    faraday-multipart (1.0.3)
+      multipart-post (>= 1.2, < 3)
+    faraday-net_http (1.0.1)
+    faraday-net_http_persistent (1.2.0)
+    faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
+    faraday-retry (1.0.3)
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hashie (5.0.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     io-console (0.5.11)
@@ -182,6 +222,8 @@ GEM
     mini_mime (1.1.2)
     minitest (5.15.0)
     msgpack (1.4.5)
+    multi_json (1.15.0)
+    multipart-post (2.1.1)
     mysql2 (0.5.3)
     nested_form (0.3.2)
     net-imap (0.2.3)
@@ -305,6 +347,7 @@ GEM
     ruby-graphviz (1.2.5)
       rexml
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -376,6 +419,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bonsai-elasticsearch-rails (~> 7)
   bootsnap
   brakeman
   bullet
@@ -388,6 +432,9 @@ DEPENDENCIES
   devise-i18n
   devise-i18n-views
   dotenv-rails
+  elasticsearch (= 7.13)
+  elasticsearch-model (~> 7)
+  elasticsearch-rails (~> 7)
   factory_bot_rails
   faker
   jbuilder
