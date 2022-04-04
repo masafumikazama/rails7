@@ -29,6 +29,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :books, param: :uuid
     resources :dashboards, only: [:index]
     resources :general_managers
+    resources :import_books, only: %i[new create]
     resources :users, only: %i[index show]
     get :show, path: '/account', to: 'account#show'
     get :edit, path: '/account/edit', to: 'account#edit'
