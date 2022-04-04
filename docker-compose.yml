@@ -14,9 +14,16 @@ services:
     tty: true
     ports:
       - 3000:3000
+    environment:
+      RAILS_ENV: development
+      DATABASE_USER: root
+      DATABASE_PASSWORD: password
+      DATABASE_HOST: db
+      AWS_SQS_ENDPOINT: http://fake_sqs:9494
     depends_on:
       - db
       - elasticsearch
+      - fake_sqs
 
   db:
     restart: always
@@ -30,6 +37,13 @@ services:
       - 3306:3306
     volumes:
       - mysql-data:/var/lib/mysql
+
+  fake_sqs:
+    image: feathj/fake-sqs
+    ports:
+      - 9494:9494
+    environment:
+      VIRTUAL_HOST: "fake_sqs"
 
   elasticsearch:
     build: ./docker/elasticsearch

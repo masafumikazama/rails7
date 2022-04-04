@@ -74,6 +74,13 @@ gem 'elasticsearch', '7.13'
 gem 'elasticsearch-model', '~> 7'
 gem 'elasticsearch-rails', '~> 7'
 
+# SQSをジョブキューとして非同期処理をする
+gem 'shoryuken'
+# SQSのSDK
+gem 'aws-sdk-sqs'
+# CSVファイルの読み込み
+gem 'roo'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

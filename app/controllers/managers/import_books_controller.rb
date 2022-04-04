@@ -2,13 +2,11 @@
 
 module Managers
   class ImportBooksController < Managers::Base
+    def new; end
 
-   def new
-
-   end
-
-   def create
-
-   end
+    def create
+      Book.import(params[:file])
+      redirect_to root_path
+    end
   end
 end
