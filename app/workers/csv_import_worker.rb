@@ -6,10 +6,13 @@ class CsvImportWorker
   def perform(sqs_msg, body)
     puts sqs_msg, body
     puts "処理開始"
-    CSV.foreach(file.path, headers: true) do |row|
+    CSV.foreach(file.path, headers: true) do |row, index|
       book = Book.new
       book.attributes = row.to_hash.slice(*updatable_attributes)
       book.save!
+      ProgressChannel.broadcast_to(
+        percent: (index+1) * 100 / pictures.length
+     )
       puts sqs_msg, body
     end
     puts "処理終了"
