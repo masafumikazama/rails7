@@ -6,7 +6,8 @@ module Managers
 
     def create
       Book.import(params[:file])
-      redirect_to root_path
+      sign_in(current_manager, bypass: true)
+      redirect_to managers_books_path
     end
   end
 end

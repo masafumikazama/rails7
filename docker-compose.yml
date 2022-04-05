@@ -24,6 +24,19 @@ services:
       - db
       - elasticsearch
       - fake_sqs
+      - worker
+
+  worker:
+    build: .
+    command: [ "./run/worker.sh" ]
+    volumes:
+      - ".:/app"
+      - "bundle:/usr/local/bundle"
+    environment:
+      AWS_SQS_ENDPOINT: http://fake_sqs:9494
+    depends_on:
+      - db
+      - fake_sqs
 
   db:
     restart: always

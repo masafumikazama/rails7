@@ -4,12 +4,15 @@ class CsvImportWorker
   shoryuken_options queue: 'csv_import_worker', auto_delete: true, body_parser: :json
 
   def perform(sqs_msg, body)
-    CSV.foreach('./import_csv_rails7.csv', headers: true) do |row|
-      book = Book.find_by(uuid: row['uuid']) || new
+    puts sqs_msg, body
+    puts "処理開始"
+    CSV.foreach(file.path, headers: true) do |row|
+      book = Book.new
       book.attributes = row.to_hash.slice(*updatable_attributes)
-      book.save
+      book.save!
       puts sqs_msg, body
     end
+    puts "処理終了"
   end
 
   def updatable_attributes

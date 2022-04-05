@@ -29,3 +29,15 @@ class Book < ApplicationRecord
     %w[uuid title auther publisher published_on series page_size]
   end
 end
+
+def self.import(file)
+  Shoryuken.configure_client do |config|
+    sqs_client = config.sqs_client
+    queue_url = sqs_client.get_queue_url(queue_name: 'csv_import_worker')['queue_url']
+  end
+end
+
+# 更新を許可するカラムを定義
+def self.updatable_attributes
+  %w[uuid title auther publisher published_on series page_size]
+end
