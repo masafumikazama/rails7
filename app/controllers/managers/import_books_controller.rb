@@ -2,12 +2,28 @@
 
 module Managers
   class ImportBooksController < Managers::Base
-    def new; end
+    def new
+      @book_csv = BookCsv.new
+    end
 
     def create
-      Book.import(params[:file])
-      sign_in(current_manager, bypass: true)
-      redirect_to managers_books_path
+       # csvを一旦ストレージに保存（画像保存と一緒）、参照情報だけDBに保存（新たにテーブルが必要）。
+       book_csv = BookCsv.new(book_csv_params)
+       book_csv.save!
+       # 以下でキューにメッセージを送る
+       Shoryuken.configure_client do |config|
+         sqs_client = config.sqs_client
+         queue_url = sqs_client.get_queue_url(queue_name: 'csv_import_worker')['queue_url']
+         sqs_client.send_message(queue_url: queue_url, message_body: { "book_csv_id": book_csv.id }.to_json)
+       end
+       flash[:notice] = "インポート処理を開始しました！"
+       redirect_to new_managers_import_book_path
+    end
+
+    private
+
+    def book_csv_params
+      params.require(:book_csv).permit(:csv_file)
     end
   end
 end
