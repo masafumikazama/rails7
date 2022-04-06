@@ -23,7 +23,7 @@ module Managers
     private
 
     def book_csv_params
-      params.require(:book_csv).permit(:csv_file)
+      params.require(:book_csv).permit(:csv_file, :imported_at)
     end
   end
 end
