@@ -9,12 +9,15 @@ class CsvImportWorker
     csv = BookCsv.find(body.values) # book_csvのcsvが格納されているカラムを参照
     tmp_file_path = Rails.root.join('tmp', 'csv_file.csv')
 
-    # 一時ファイル書き込み
-    binding.irb
     file_content = csv.csv_file.download
-    File.open(tmp_file_path, 'wb') do |file|
-      file.write(file_content)
-    end
+    written_file =  csv.csv_file.attach(
+                      io: File.open(tmp_file_path, 'wb'),
+                      filename: 'file.csv',
+                      content_type: 'application/csv',
+                      identify: false
+                    )
+    written_file.write(file_content)
+
     ActiveRecord::Base.transaction do
       CSV.foreach(tmp_file_path, encoding: 'CP932:UTF-8') do |row|
         Book.create!(uuid: row[0], title: row[1], auther: row[2], publisher: row[3], published_on: row[4], series: row[5], page_size: row[6])
