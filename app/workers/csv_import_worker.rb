@@ -5,24 +5,23 @@ class CsvImportWorker
 
   def perform(sqs_msg, body)
     puts "CSVインポート処理開始"
+    # binding.irb
     # キューのメッセージにレコードのIDを入れてあるのでそれを元にレコードを特定
-    csv = BookCsv.find(body.values) # book_csvのcsvが格納されているカラムを参照
+    puts body
+    csv = BookCsv.find(body['book_csv_id']) # book_csvのcsvが格納されているカラムを参照
     tmp_file_path = Rails.root.join('tmp', 'csv_file.csv')
 
+  # 一時ファイル書き込み
+    pp tmp_file_path.inspect
     file_content = csv.csv_file.download
-    written_file =  csv.csv_file.attach(
-                      io: File.open(tmp_file_path, 'wb'),
-                      filename: 'file.csv',
-                      content_type: 'application/csv',
-                      identify: false
-                    )
-    written_file.write(file_content)
+    File.open(tmp_file_path, 'wb') do |file|
+      file.write(file_content)
+    end
 
     ActiveRecord::Base.transaction do
-      CSV.foreach(tmp_file_path, encoding: 'CP932:UTF-8') do |row|
+      CSV.foreach(tmp_file_path, encoding: 'utf-8') do |row|
         Book.create!(uuid: row[0], title: row[1], auther: row[2], publisher: row[3], published_on: row[4], series: row[5], page_size: row[6])
         csv.update!(imported_at: Time.zone.now)
-        puts sqs_msg, body
       end
     end
     puts "処理終了"
