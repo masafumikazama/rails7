@@ -10,8 +10,14 @@ consumer.subscriptions.create("ProgressChannel", {
   },
 
   received(data) {
-    // Called when there's incoming data on the websocket for this channel
-    $('.progress-percentage').text(`${data.percent}%`)
+    document.getElementByClassName("progress-percentage").innerText = `${data.percent}%`
     $('progress').prop('value', data.percent)
   }
 });
+
+
+// received(data) {
+//   // Called when there's incoming data on the websocket for this channel
+//   $('.progress-percentage').text(`${data.percent}%`)
+//   $('progress').prop('value', data.percent)
+// }

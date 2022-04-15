@@ -14,7 +14,7 @@ module Managers
        Shoryuken.configure_client do |config|
          sqs_client = config.sqs_client
          queue_url = sqs_client.get_queue_url(queue_name: 'csv_import_worker')['queue_url']
-         sqs_client.send_message(queue_url: queue_url, message_body: { "book_csv_id": book_csv.id }.to_json)
+         sqs_client.send_message(queue_url: queue_url, message_body: { "book_csv_id": book_csv.id, "manager_id": current_manager.id }.to_json)
        end
        flash[:notice] = "インポート処理を開始しました！"
        redirect_to new_managers_import_book_path
