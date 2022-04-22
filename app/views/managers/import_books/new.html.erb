@@ -11,14 +11,14 @@
                     <div class="flex gap-2 md:gap-4 justify-between items-center">
                         <div class="flex flex-col space-y-4">
                             <div class="flex items-center gap-4">
-                              <%= form_with(model: @book_csv, url: managers_import_books_path, local: true, method: :post) do |f| %>
+                              <%= form_with(model: @book_csv, url: managers_import_books_path, remote: true, method: :post) do |f| %>
+                                <%= f.hidden_field :manager_id, value: current_manager.id %>
                                 <%= f.file_field :csv_file, required: true %>
                                 <%= f.submit "インポート", class: 'bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800' %>
                               <% end %>
                             </div>
-                            <div class="progress-percentage text-xs-center">0%</div>
-                            <progress class="progress progress-striped" max="100" value="0"></progress>
                         </div>
+                        <h1 class='polling_result'></h1>
                     </div>
                     <div class="flex gap-2 md:gap-4">
                       <%= link_to '戻る', managers_dashboards_path, class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
@@ -28,3 +28,6 @@
         </div>
     </div>
 </main>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -30,6 +30,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :dashboards, only: [:index]
     resources :general_managers
     resources :import_books, only: %i[new create]
+    get "/book_csv/:id/status" => "import_books#import_end_point", as: "import_end_point"
     resources :users, only: %i[index show]
     get :show, path: '/account', to: 'account#show'
     get :edit, path: '/account/edit', to: 'account#edit'
