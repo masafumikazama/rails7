@@ -1,0 +1,60 @@
+<tr>
+    <td class="border px-4 py-2"><%= book_csv.id %></td>
+    <td class="border px-4 py-2"><%= book_csv.created_at %></td>
+    <td class="border px-4 py-2" id="book_csv_<%=book_csv.id%>"><%= book_csv.status %></td>
+</tr>
+
+<script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+
+
+<script>
+  $(function() {
+    if ("<%= book_csv.status %>" != "完了") {
+      polling();
+    }
+  });
+
+  function mySleep(time) {
+    return (
+      function() {
+        var dfd = $.Deferred();
+        setTimeout(
+          function() {
+            dfd.resolve();
+          },
+          time * 1000);
+        return dfd.promise();
+      });
+  }
+
+  // 3秒毎にポーリング
+  function polling() {
+    $.ajax({
+        // 処理の状態を取得するサービスにアクセス
+        url: "/managers/book_csv/<%= book_csv.id %>/status",
+        type: "GET",
+        dataType: "json"
+      })
+    .then(
+      function(data, status, xhr) {
+        // 取得したデータの内容によってDeferredの状態を変更する
+        var d = $.Deferred();
+        if (data.status === "完了") {
+          console.log("完了")
+          $("#book_csv_<%= book_csv.id %>").text("完了")
+          d.reject();
+        } else {
+          console.log("進行中")
+          d.resolve();
+        }
+
+        // Promiseを返す
+        return d.promise();
+      })
+    .then(mySleep(3))
+    .done(polling)
+  }
+</script>
