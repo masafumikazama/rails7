@@ -4,6 +4,7 @@ module Managers
   class ImportBooksController < Managers::Base
     def new
       @book_csv = BookCsv.new
+      @book_csvs = current_manager.book_csvs
     end
 
     def create
@@ -17,13 +18,20 @@ module Managers
          sqs_client.send_message(queue_url: queue_url, message_body: { "book_csv_id": book_csv.id }.to_json)
        end
        flash[:notice] = "インポート処理を開始しました！"
-      #  redirect_to new_managers_import_book_path
+       redirect_to new_managers_import_book_path
+    end
+
+    def status
+      @book_csv = current_manager.book_csvs.find(params[:id])
+      respond_to do |format|
+        format.json { render json: { status: @book_csv.status }}
+      end
     end
 
     private
 
     def book_csv_params
-      params.require(:book_csv).permit(:csv_file, :imported_at, :status, :manager_id)
+      params.require(:book_csv).permit(:csv_file, :imported_at, :status, :manager_id).merge(status: "インポート処理中...")
     end
   end
 end
