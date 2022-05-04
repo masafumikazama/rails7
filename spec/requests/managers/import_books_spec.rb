@@ -7,37 +7,46 @@ RSpec.describe 'CSVファイルのインポートテスト', type: :request do
   end
 
   describe 'CSVファイルのインポートテスト' do
-    let(:json_response) { JSON.parse(response.body) }
+    let(:csv_file) { fixture_file_upload(Rails.root.join('spec/files/sample_csv_file.csv'), 'text/csv') }
+    let(:blank_csv_file) { fixture_file_upload(Rails.root.join('spec/files/blank_csv_file.csv'), 'text/csv') }
+    let(:manager) { create(:manager) }
+    let(:book_csv) { create(:book_csv, manager: manager) }
+    let(:book_csv_params) { attributes_for(:book_csv, manager: manager) }
+    # let(:book_csv_params) { attributes_for(:book_csv) }
+    let(:invalid_book_csv_params) { attributes_for(:book_csv, manager_id: '') }
 
     context '有効なCSVファイルをインポートした場合' do
-      let(:csv_file) { fixture_file_upload(Rails.root.join('spec/files/sample_csv_file.csv'), 'text/csv') }
-      let(:book) do
-        csv_headers = %w[uuid title auther Publisher published_on series page_size]
-        book_attributes_list = [
-          %w[27b84b0d-0ce5-4b23-81f3-736f808e89a1 テストタイトル1 テスト著者1 テスト出版1 2022-04-01 歴史 100],
-          %w[27b84b0d-0ce5-4b23-81f3-736f808e89a2 テストタイトル2 テスト著者2 テスト出版2 2022-04-01 歴史 200]
-        ]
-        book_import_source = build(:book_import_source,
-                                       csv_headers: csv_headers,
-                                       book_attributes_list: book_attributes_list)
-        create(:book, book_import_source: book_import_source)
-      end
 
-      before do
-        allow(Book).to receive(:create_from_csv).and_return(book)
-        post managers_import_books_path, params: { file: csv_file }, xhr: true
+      it 'レスポンスが成功を返すこと' do
+        post managers_import_books_path, params: {
+          csv_file: fixture_file_upload(csv_file, 'text/csv'),
+          book_csv: book_csv_params
+        }
+        expect(response.status).to eq 302
+        expect(response).to redirect_to(new_managers_import_book_path)
       end
+    end
 
-      it 'ステータスコード 200 を返すこと' do
-        expect(response).to have_http_status(:ok)
+    context '無効なCSVファイルをインポートした場合' do
+
+      it 'レスポンスが失敗を返すこと' do
+        post managers_import_books_path, params: {
+          blank_csv_file: fixture_file_upload(blank_csv_file, 'text/csv'),
+          book_csv: invalid_book_csv_params
+        }
+        expect(response.status).to eq 302
+        expect(response).to redirect_to(new_managers_import_book_path)
       end
+    end
 
-      it 'リダイレクトURLの情報を含むjsonを返すこと' do
-        expect(json_response).to have_key('redirect_url')
-      end
+    context 'ポーリングのエンドポイントテスト' do
 
-      it 'リダイレクト画面のURLと一致すること' do
-        expect(json_response['redirect_url']).to eq(new_managers_import_book_path)
+      it 'ポーリングのエンドポイントテストが成功すること' do
+        get "/managers/book_csv/#{book_csv.id}/status", params: { book_csv: book_csv_params, format: :json, xhr: true }
+        # get managers_path(book_csv.id), params: { book_csv: book_csv_params, format: :json }
+        expect(response.status).to eq(200)
+        expect(response.content_type).to eq('application/json')
+        expect(JSON.parse(response.body)['status']).to eq('インポート処理中...')
       end
     end
   end

@@ -10,6 +10,7 @@ module Managers
     def create
        # csvを一旦ストレージに保存（画像保存と一緒）、参照情報だけDBに保存（新たにテーブルが必要）。
        book_csv = BookCsv.new(book_csv_params)
+       book_csv.manager = current_manager
        @book_csv = book_csv.save!
        # 以下でキューにメッセージを送る
        Shoryuken.configure_client do |config|
