@@ -11,8 +11,7 @@ RSpec.describe 'CSVファイルのインポートテスト', type: :request do
     let(:blank_csv_file) { fixture_file_upload(Rails.root.join('spec/files/blank_csv_file.csv'), 'text/csv') }
     let(:manager) { create(:manager) }
     let(:book_csv) { create(:book_csv, manager: manager) }
-    let(:book_csv_params) { attributes_for(:book_csv, manager: manager) }
-    # let(:book_csv_params) { attributes_for(:book_csv) }
+    let(:book_csv_params) { attributes_for(:book_csv) }
     let(:invalid_book_csv_params) { attributes_for(:book_csv, manager_id: '') }
 
     context '有効なCSVファイルをインポートした場合' do
@@ -43,10 +42,9 @@ RSpec.describe 'CSVファイルのインポートテスト', type: :request do
 
       it 'ポーリングのエンドポイントテストが成功すること' do
         get "/managers/book_csv/#{book_csv.id}/status", params: { book_csv: book_csv_params, format: :json, xhr: true }
-        # get managers_path(book_csv.id), params: { book_csv: book_csv_params, format: :json }
         expect(response.status).to eq(200)
-        expect(response.content_type).to eq('application/json')
-        expect(JSON.parse(response.body)['status']).to eq('インポート処理中...')
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+        expect(JSON.parse(response.body)['status']).to eq('完了')
       end
     end
   end

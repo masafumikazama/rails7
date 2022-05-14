@@ -27,6 +27,6 @@ class CsvImportWorker
     puts "処理終了"
     # 例外発生時を含め、一時ファイルは必ず削除する
     ensure
-      File.delete(tmp_file_path) if File.exist?(tmp_file_path)
+      File.delete(tmp_file_path) if File.exist?(tmp_file_path.to_s)
   end
 end

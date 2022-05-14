@@ -23,7 +23,8 @@ module Managers
     end
 
     def status
-      @book_csv = current_manager.book_csvs.find(params[:id])
+      @book_csv = BookCsv.find(params[:id])
+      @book_csv.manager = current_manager
       respond_to do |format|
         format.json { render json: { status: @book_csv.status }}
       end

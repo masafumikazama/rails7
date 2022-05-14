@@ -1,22 +1,38 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe 'CSVファイルインポートの画面遷移', type: :system do
+RSpec.describe CsvImportWorker do
 
-  # before(:each) do
-  #   login_manager
-  # end
+  let!(:manager) { create(:manager) }
+  let!(:book_csv) { create(:book_csv, manager: manager) }
+  let!(:book_csv_params) { attributes_for(:book_csv) }
 
-  # file = CSV.generate do |csv|
-  #   csv << ["name", "facebook_url"]
-  #   csv << ["artict1", "nil"]
-  #   csv << ["artict2", "facebook_url"]
-  # end
+  let(:sqs_msg) { double message_id: 'fc754df7-9cc2-4c41-96ca-5996a44b771e',
+                  body: { "book_csv_id": book_csv.id }.to_json,
+                  delete: nil }
 
-  # context 'CSVファイルインポートの画面遷移' do
-  #   it 'CSVファイルをインポートできることを確認' do
-  #     visit new_managers_import_book_path
+  describe 'perform メソッドのテスト' do
+    subject { CsvImportWorker.new }
 
+    it '標準出力を表示' do
+      expect { subject.perform(sqs_msg, sqs_msg.body) }.to output(sqs_msg.body).to_stdout
+    end
 
-  #   end
-  # end
+    it 'メッセージの削除' do
+      expect(sqs_msg).to receive(:delete)
+
+      subject.perform(sqs_msg, body)
+    end
+
+    it '新規メッセージの投入' do
+      sqs_queue = double 'other queue'
+
+      allow(Shoryuken::Client).to receive(:queues).
+        with('other_queue').and_return(sqs_queue)
+
+      expect(sqs_queue).to receive(:send_message).
+        with('new test')
+
+      subject.perform(sqs_msg, body)
+    end
+  end
 end
