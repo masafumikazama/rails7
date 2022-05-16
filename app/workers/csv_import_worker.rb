@@ -25,12 +25,10 @@ class CsvImportWorker
         end
         csv.update!(imported_at: Time.zone.now, status: '完了')
         puts sqs_msg, body
-        true
       end
     rescue StandardError
       csv.update!(imported_at: Time.zone.now, status: 'インポート失敗')
       puts sqs_msg, body
-      false
     end
     puts '処理終了'
     # 例外発生時を含め、一時ファイルは必ず削除する
