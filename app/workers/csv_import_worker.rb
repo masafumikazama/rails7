@@ -19,11 +19,18 @@ class CsvImportWorker
 
     ActiveRecord::Base.transaction do
       CSV.foreach(tmp_file_path, encoding: 'utf-8') do |row|
-        Book.create!(uuid: row[0], title: row[1], auther: row[2], publisher: row[3], published_on: row[4], series: row[5],
-          page_size: row[6])
+        unless row[0] == ''
+          Book.create!(uuid: row[0], title: row[1], auther: row[2], publisher: row[3], published_on: row[4], series: row[5],
+            page_size: row[6])
+        end
         csv.update!(imported_at: Time.zone.now, status: '完了')
         puts sqs_msg, body
+        true
       end
+    rescue StandardError
+      csv.update!(imported_at: Time.zone.now, status: 'インポート失敗')
+      puts sqs_msg, body
+      false
     end
     puts '処理終了'
     # 例外発生時を含め、一時ファイルは必ず削除する

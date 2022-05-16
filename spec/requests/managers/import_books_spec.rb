@@ -31,6 +31,7 @@ RSpec.describe 'CSVファイルのインポートテスト', type: :request do
         }
         expect(response.status).to eq 302
         expect(response).to redirect_to(new_managers_import_book_path)
+        # expect(response.body).to include 'インポート失敗'
       end
     end
 
