@@ -18,10 +18,10 @@ class CsvImportWorker
     end
 
     ActiveRecord::Base.transaction do
-      CSV.foreach(tmp_file_path, encoding: 'utf-8') do |row|
-        unless row[0] == ''
-          Book.create!(uuid: row[0], title: row[1], auther: row[2], publisher: row[3], published_on: row[4], series: row[5],
-            page_size: row[6])
+      CSV.foreach(tmp_file_path, encoding: 'utf-8', headers: true) do |row|
+        unless row['uuid'] == '' || row['title'] == '' || row['page_size'] == ''
+          Book.create!(uuid: row['uuid'], title: row['title'], auther: row['auther'], publisher: row['publisher'], published_on: row['published_on'], series: row['series'],
+            page_size: row['page_size'])
         end
         csv.update!(imported_at: Time.zone.now, status: '完了')
         puts sqs_msg, body
