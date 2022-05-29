@@ -1,0 +1,50 @@
+<main class="container mx-w-6xl mx-auto py-4">
+    <div class="flex flex-col space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5 px-4 xl:p-0 gap-y-4 md:gap-6">
+            <div class="md:col-span-2 xl:col-span-3 bg-white p-6 rounded-2xl border border-gray-50">
+                <div class="flex flex-col space-y-6 md:h-full md:justify-between">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                            図書データインポート
+                        </span>
+                    </div>
+                      <% flash.each do |type, msg| %>
+                        <div>
+                          <%= msg %>
+                        </div>
+                      <% end %>
+                    <div class="flex gap-2 md:gap-4 justify-between items-center">
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center gap-4">
+                              <%= form_with(model: @book_csv, url: managers_import_books_path, remote: true, method: :post) do |f| %>
+                                <%= f.hidden_field :manager_id, value: current_manager.id %>
+                                <%= f.file_field :csv_file, required: true %>
+                                <%= f.submit "インポート", class: 'bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800' %>
+                              <% end %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table-auto">
+                    <thead>
+                        <tr>
+                        <th class="px-4 py-2">id</th>
+                        <th class="px-4 py-2">インポート開始時間</th>
+                        <th class="px-4 py-2">ステータス</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @book_csvs.each do |book_csv| %>
+                            <%= render 'status', book_csv: book_csv %>
+                        <% end %>
+                    </tbody>
+                    </table>
+
+                    <div class="flex gap-2 md:gap-4">
+                      <%= link_to '戻る', managers_dashboards_path, class: "bg-blue-600 px-5 py-3 w-full text-center md:w-auto rounded-lg text-white text-xs tracking-wider font-semibold hover:bg-blue-800" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
